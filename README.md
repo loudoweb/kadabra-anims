@@ -1,2 +1,7 @@
 # kadabra-anims
-WIP.Presets animations with actuate. OpenFl renderer but xml can be use
+WIP. Presets animations with actuate.
+
+# TODO
+
+- [] xml config
+- [] more presets and more configurable
