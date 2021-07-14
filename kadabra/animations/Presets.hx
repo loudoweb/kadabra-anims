@@ -76,7 +76,7 @@ class Presets
 		return target;
 	}
 	
-	public static function shake<T> (target:T, duration:Float = 1.0, translation:Int = 100, axes:Int = 3, fps:Int = 60, ?currentX:Float, ?currentY:Float):T
+	public static function shake<T> (target:T, duration:Float = 1.0, translation:Int = 42, axes:Int = 3, fps:Int = 60, ?currentX:Float, ?currentY:Float):T
 	{
 		currentX = currentX != null ? currentX : Reflect.getProperty(target, "x");
 		currentY = currentY != null ? currentY : Reflect.getProperty(target, "y");
