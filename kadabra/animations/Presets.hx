@@ -50,6 +50,32 @@ class Presets
 		return target;
 	}
 	
+	public static function appear<T> (target:T, duration:Float = 1.0):T
+	{
+		var alpha:Float = Reflect.getProperty(target, "alpha");
+		Actuate.apply(target, {alpha: 0});
+		Actuate.tween(target, duration, {alpha:  alpha});
+		return target;
+	}
+	
+	public static function appearX<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
+	{
+		var current:Float = Reflect.getProperty(target, "x");
+		var alpha:Float = Reflect.getProperty(target, "alpha");
+		Actuate.apply(target, {x: current + translation, alpha:0});
+		Actuate.tween(target, duration, {x:  current, alpha: alpha});
+		return target;
+	}
+	
+	public static function appearY<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
+	{
+		var current:Float = Reflect.getProperty(target, "y");
+		var alpha:Float = Reflect.getProperty(target, "alpha");
+		Actuate.apply(target, {y: current - translation, alpha: 0});
+		Actuate.tween(target, duration, {y:  current, alpha: alpha});
+		return target;
+	}
+	
 	//wip
 	public static function hit<T> (target:T, duration:Float = 1.0, rotation:Int = 10):T
 	{
