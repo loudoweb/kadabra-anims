@@ -5,3 +5,4 @@ WIP. Presets animations with actuate.
 
 - [] xml config
 - [] more presets and more configurable
+- [] callback

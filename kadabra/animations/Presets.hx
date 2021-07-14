@@ -76,6 +76,23 @@ class Presets
 		return target;
 	}
 	
+	public static function shake<T> (target:T, duration:Float = 1.0, translation:Int = 100, axes:Int = 3, fps:Int = 60, ?currentX:Float, ?currentY:Float):T
+	{
+		currentX = currentX != null ? currentX : Reflect.getProperty(target, "x");
+		currentY = currentY != null ? currentY : Reflect.getProperty(target, "y");
+		if(axes == 3 || axes == 1)
+			Actuate.apply(target, {x: currentX +  Math.floor(Math.random() * (1 + translation * 2)) -translation});
+		if(axes == 3 || axes == 2)
+			Actuate.apply(target, {y: currentY +  Math.floor(Math.random() * (1 + translation * 2)) -translation});
+		duration -= 1 / fps;
+		trace(duration);
+		if(duration > 0)
+			Actuate.timer(1 / fps).onComplete(shake, [target, duration, translation, axes, fps, currentX, currentY]) ;
+		else
+			Actuate.apply(target, {x: currentX, y: currentY});
+		return target;
+	}
+	
 	//wip
 	public static function hit<T> (target:T, duration:Float = 1.0, rotation:Int = 10):T
 	{
