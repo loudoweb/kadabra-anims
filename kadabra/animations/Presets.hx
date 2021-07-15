@@ -2,6 +2,7 @@ package kadabra.animations;
 import motion.Actuate;
 import motion.easing.Back;
 import motion.easing.Bounce;
+import motion.easing.Elastic;
 import motion.easing.Linear;
 import motion.easing.Quad;
 
@@ -35,6 +36,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * Exit
+	 */
 	public static function spread<T> (target:T, duration:Float = 0.75):T
 	{
 		Actuate.tween(target, duration, {alpha:  0, scaleX: 1.75, scaleY: 1.75});
@@ -50,6 +54,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * entrance
+	 */
 	public static function fadeIn<T> (target:T, duration:Float = 1.0):T
 	{
 		var alpha:Float = Reflect.getProperty(target, "alpha");
@@ -58,6 +65,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * entrance
+	 */
 	public static function fadeInX<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
 	{
 		var current:Float = Reflect.getProperty(target, "x");
@@ -67,6 +77,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * entrance
+	 */
 	public static function fadeInY<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
 	{
 		var current:Float = Reflect.getProperty(target, "y");
@@ -76,12 +89,18 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * exit
+	 */
 	public static function fadeOut<T> (target:T, duration:Float = 1.0):T
 	{
 		Actuate.tween(target, duration, {alpha:  0});
 		return target;
 	}
 	
+	/**
+	 * exit
+	 */
 	public static function fadeOutX<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
 	{
 		var current:Float = Reflect.getProperty(target, "x");
@@ -89,6 +108,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * exit
+	 */
 	public static function fadeOutY<T> (target:T, duration:Float = 1.0, translation:Int = 100):T
 	{
 		var current:Float = Reflect.getProperty(target, "y");
@@ -96,6 +118,9 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * For camera or game asset
+	 */
 	public static function shake<T> (target:T, duration:Float = 1.0, translation:Int = 42, axes:Int = 3, fps:Int = 60, ?currentX:Float, ?currentY:Float):T
 	{
 		currentX = currentX != null ? currentX : Reflect.getProperty(target, "x");
@@ -114,6 +139,7 @@ class Presets
 	}
 	
 	/**
+	 * get attention
 	 * adapted from css https://animate.style
 	 */
 	public static function bounce<T> (target:T, duration:Float = 1.0, translation:Int = 42):T
@@ -125,6 +151,7 @@ class Presets
 	}
 	
 	/**
+	 * get attention
 	 * adapted from css https://animate.style
 	 */
 	public static function flash<T> (target:T, duration:Float = 1.0):T
@@ -137,6 +164,7 @@ class Presets
 		return target;
 	}
 	/**
+	 * get attention
 	 * adapted from css https://animate.style
 	 */
 	public static function rubberband<T> (target:T, duration: Float = 1.0):T
@@ -151,6 +179,7 @@ class Presets
 	}
 	
 	/**
+	 * get attention
 	 * adapted from css https://animate.style
 	 */
 	public static function swing<T> (target:T, duration: Float = 1.0):T
@@ -164,6 +193,7 @@ class Presets
 	}
 	
 	/**
+	 * get attention
 	 * adapted from css https://animate.style
 	 */
 	public static function tada<T> (target:T, duration: Float = 1.0):T
@@ -181,6 +211,7 @@ class Presets
 	}
 	
 	/**
+	 * entrance
 	 * adapted from css https://animate.style
 	 */
 	public static function backIn<T> (target:T, duration: Float = 1.0, translation:Int = 100):T
@@ -193,6 +224,7 @@ class Presets
 	}
 	
 	/**
+	 * exit
 	 * adapted from css https://animate.style
 	 */
 	public static function backOut<T> (target:T, duration: Float = 1.0, translation:Int = 100):T
@@ -203,14 +235,107 @@ class Presets
 		return target;
 	}
 	
-	//wip
+	#if openfl
+	/**
+	 * Entrance
+	 * Openfl only because it uses matrix
+	 * adapted from css https://animate.style
+	 */
+	public static function lightSpeedInX (target:openfl.display.DisplayObject, duration: Float = 1.0, translation:Int = 100):openfl.display.DisplayObject
+	{
+		var current:Float = target.x;
+		var alpha:Float = target.alpha;
+		target.x = current + translation;
+		target.alpha = 0;
+		var matrix = new openfl.geom.Matrix();
+		matrix.concat(target.transform.matrix);
+		
+		Actuate.tween(target, duration, {alpha: 1});
+		Actuate.tween(matrix, duration, {tx:  current}).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .6, {c:  20 * Math.PI / 180}, false).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .2, {c:  -5 * Math.PI / 180}, false).delay(duration * .6).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .2, {c:  0}, false).delay(duration * .8).onUpdate(updateMatrix, [target, matrix]);
+		return target;
+	}
+	/**
+	 * Entrance
+	 * Openfl only because it uses matrix
+	 * adapted from css https://animate.style
+	 */
+	public static function lightSpeedInY (target:openfl.display.DisplayObject, duration: Float = 1.0, translation:Int = 100):openfl.display.DisplayObject
+	{
+		var current:Float = target.y;
+		var alpha:Float = target.alpha;
+		target.y = current + translation;
+		target.alpha = 0;
+		var matrix = new openfl.geom.Matrix();
+		matrix.concat(target.transform.matrix);
+		
+		Actuate.tween(target, duration, {alpha: 1});
+		Actuate.tween(matrix, duration, {ty:  current}).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .6, {b:  20 * Math.PI / 180}, false).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .2, {b:  -5 * Math.PI / 180}, false).delay(duration * .6).onUpdate(updateMatrix, [target, matrix]);
+		Actuate.tween(matrix, duration * .2, {b:  0}, false).delay(duration * .8).onUpdate(updateMatrix, [target, matrix]);
+		return target;
+	}
+	
+	static function updateMatrix(target:openfl.display.DisplayObject, matrix:openfl.geom.Matrix):Void
+	{
+		target.transform.matrix = matrix;
+	}
+	#end
+	
+	/**
+	 * Entrance
+	 */
+	public static function flipInX<T> (target:T, duration: Float = 1.0):T
+	{
+		var current = Reflect.getProperty(target, "alpha");
+		Actuate.apply(target, {alpha: 0, scaleX: -1});
+		Actuate.tween(target, duration, {alpha: current, scaleX: 1}).ease(Elastic.easeOut);
+		return target;
+	}
+	
+	/**
+	 * Entrance
+	 */
+	public static function flipInY<T> (target:T, duration: Float = 1.0):T
+	{
+		var current = Reflect.getProperty(target, "alpha");
+		Actuate.apply(target, {alpha: 0, scaleY: -1});
+		Actuate.tween(target, duration, {alpha: current, scaleY: 1}).ease(Elastic.easeOut);
+		return target;
+	}
+	
+	/**
+	 * Entrance
+	 */
+	public static function flipOutX<T> (target:T, duration: Float = 1.0):T
+	{
+		Actuate.tween(target, duration, {alpha: 0, scaleX: -1}).ease(Elastic.easeIn);
+		return target;
+	}
+	
+	/**
+	 * Entrance
+	 */
+	public static function flipOutY<T> (target:T, duration: Float = 1.0):T
+	{
+		Actuate.tween(target, duration, {alpha: 0, scaleY: -1}).ease(Elastic.easeIn);
+		return target;
+	}
+	
+	/**
+	 * wip
+	 * for game asset
+	 */
 	public static function hit<T> (target:T, duration:Float = 1.0, rotation:Int = 10):T
 	{
 		var current:Float = Reflect.getProperty(target, "rotation");
-		Actuate.tween(target, duration/4, {rotation:  rotation}).ease(Linear.easeNone);
-		Actuate.tween(target, duration/4, {rotation:  -rotation}, false).ease(Linear.easeNone).delay(duration/4);
-		Actuate.tween(target, duration/4, {rotation:  rotation/2}, false).ease(Linear.easeNone).delay(duration/2);
-		Actuate.tween(target, duration/4, {rotation:  0}, false).ease(Linear.easeNone).delay(duration/4 * 3);
+		Actuate.tween(target, duration *.25, {rotation:  rotation}).ease(Linear.easeNone);
+		Actuate.tween(target, duration *.25, {rotation:  -rotation}, false).ease(Linear.easeNone).delay(duration *.25);
+		Actuate.tween(target, duration *.25, {rotation:  rotation/2}, false).ease(Linear.easeNone).delay(duration *5);
+		Actuate.tween(target, duration *.25, {rotation:  0}, false).ease(Linear.easeNone).delay(duration *.75);
 		return target;
 	}
 	
