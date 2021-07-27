@@ -339,4 +339,24 @@ class Presets
 		return target;
 	}
 	
+	/**
+	 * Just a way to call a preset from a string
+	 */
+	public static function callPresetByName<T>(target:T, preset:String):Void
+	{
+		switch(preset)
+		{
+			case "breathe":
+				breathe(target);
+			case "breatheAlpha":
+				breatheAlpha(target);
+			case "spread":
+				spread(target);
+			case "clic":
+				clic(target);
+			case "shake":
+				shake(target);
+		}
+	}
+	
 }
