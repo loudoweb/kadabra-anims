@@ -6,6 +6,33 @@ import motion.easing.Elastic;
 import motion.easing.Linear;
 import motion.easing.Quad;
 
+enum EPreset {
+	BREATHE;
+	BREATHE_ALPHA;
+	SPREADOUT;
+	CLIC;
+	FADEIN;
+	FADEIN_X;
+	FADEIN_Y;
+	FADEOUT;
+	FADEOUT_X;
+	FADEOUT_Y;
+	SHAKE;
+	BOUNCE;
+	FLASH;
+	RUBBERBAND;
+	SWING;
+	TADA;
+	BACKIN;
+	BACKOUT;
+	LIGHTSPEEDIN_X;
+	LIGHTSPEEDIN_Y;
+	FLIPIN_X;
+	FLIPIN_Y;
+	FLIPOUT_X;
+	FLIPOUT_Y;
+	
+}
 /**
  * ...
  * @author Ludovic Bas - www.lugludum.com
@@ -39,7 +66,7 @@ class Presets
 	/**
 	 * Exit
 	 */
-	public static function spread<T> (target:T, duration:Float = 0.75):T
+	public static function spreadOut<T> (target:T, duration:Float = 0.75):T
 	{
 		Actuate.tween(target, duration, {alpha:  0, scaleX: 1.75, scaleY: 1.75});
 		return target;
@@ -130,7 +157,7 @@ class Presets
 		if(axes == 3 || axes == 2)
 			Actuate.apply(target, {y: currentY +  Math.floor(Math.random() * (1 + translation * 2)) -translation});
 		duration -= 1 / fps;
-		trace(duration);
+
 		if(duration > 0)
 			Actuate.timer(1 / fps).onComplete(shake, [target, duration, translation, axes, fps, currentX, currentY]) ;
 		else
@@ -217,8 +244,8 @@ class Presets
 	public static function backIn<T> (target:T, duration: Float = 1.0, translation:Int = 100):T
 	{
 		var current = Reflect.getProperty(target, "y");
-		Actuate.apply(target, {alpha: .7, scaleX: .7, scaleY: .7, y: current + translation});
-		Actuate.tween(target, duration * .8, {y: current});
+		Actuate.apply(target, {alpha: 0, scaleX: .7, scaleY: .7, y: current + translation}).autoVisible(false);
+		Actuate.tween(target, duration * .8, {alpha: 0.8, y: current});
 		Actuate.tween(target, duration * .2, {scaleX: 1, scaleY: 1, alpha: 1}, false).delay( duration * .8);
 		return target;
 	}
@@ -230,8 +257,8 @@ class Presets
 	public static function backOut<T> (target:T, duration: Float = 1.0, translation:Int = 100):T
 	{
 		var current = Reflect.getProperty(target, "y");
-		Actuate.tween(target, duration * .2, {alpha: .7, scaleX: .7, scaleY: .7});
-		Actuate.tween(target, duration * .8, {y: current + translation}, false).delay( duration * .2);
+		Actuate.tween(target, duration * .2, {alpha: .8, scaleX: .8, scaleY: .7});
+		Actuate.tween(target, duration * .8, {y: current + translation, alpha: 0}, false).delay( duration * .2);
 		return target;
 	}
 	
@@ -344,18 +371,76 @@ class Presets
 	 */
 	public static function callPresetByName<T>(target:T, preset:String):Void
 	{
-		switch(preset)
+		try{
+			var p = Type.createEnum(EPreset, preset.toUpperCase());
+			callPreset(target, p);
+		}catch (e)
 		{
-			case "breathe":
+			trace('preset $preset doesn\'t exist');
+		}
+	}
+	
+	public static function callPresetByIndex<T>(target:T, preset:Int):Void
+	{
+		var p = Type.createEnumIndex(EPreset, preset);
+		callPreset(target, p);
+	}
+	
+	public static function callPreset<T>(target:T, preset:EPreset):Void
+	{
+		switch (preset) 
+		{
+			case BREATHE:
 				breathe(target);
-			case "breatheAlpha":
+			case BREATHE_ALPHA:
 				breatheAlpha(target);
-			case "spread":
-				spread(target);
-			case "clic":
+			case SPREADOUT:
+				spreadOut(target);
+			case CLIC:
 				clic(target);
-			case "shake":
+			case FADEIN:
+				fadeIn(target);
+			case FADEIN_X:
+				fadeInX(target);
+			case FADEIN_Y:
+				fadeInY(target);
+			case FADEOUT:
+				fadeOut(target);
+			case FADEOUT_X:
+				fadeOutX(target);
+			case FADEOUT_Y:
+				fadeOutY(target);
+			case SHAKE:
 				shake(target);
+			case BOUNCE:
+				bounce(target);
+			case FLASH:
+				flash(target);
+			case RUBBERBAND:
+				rubberband(target);
+			case SWING:
+				swing(target);
+			case TADA:
+				tada(target);
+			case BACKIN:
+				backIn(target);
+			case BACKOUT:
+				backOut(target);
+			#if openfl
+			case LIGHTSPEEDIN_X:
+				lightSpeedInX(cast (target, openfl.display.DisplayObject));
+			case LIGHTSPEEDIN_Y:
+				lightSpeedInY(cast (target, openfl.display.DisplayObject));
+			#end
+			case FLIPIN_X:
+				flipInX(target);
+			case FLIPIN_Y:
+				flipInY(target);
+			case FLIPOUT_X:
+				flipOutX(target);
+			case FLIPOUT_Y:
+				flipOutY(target);
+				
 		}
 	}
 	
