@@ -7,9 +7,6 @@ import motion.easing.Linear;
 import motion.easing.Quad;
 
 enum EPreset {
-	BREATHE;
-	BREATHE_ALPHA;
-	SPREADOUT;
 	CLIC;
 	FADEIN;
 	FADEIN_X;
@@ -17,7 +14,6 @@ enum EPreset {
 	FADEOUT;
 	FADEOUT_X;
 	FADEOUT_Y;
-	SHAKE;
 	BOUNCE;
 	FLASH;
 	RUBBERBAND;
@@ -31,7 +27,10 @@ enum EPreset {
 	FLIPIN_Y;
 	FLIPOUT_X;
 	FLIPOUT_Y;
-	
+	SHAKE;
+	SPREADOUT;
+	BREATHE;
+	BREATHE_ALPHA;
 }
 /**
  * ...
