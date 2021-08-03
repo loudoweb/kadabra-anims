@@ -1,5 +1,5 @@
 # kadabra-anims
-WIP. Presets animations with actuate.
+WIP. Presets animations with actuate. Should work with any engine as long as the same properties are used (x, y, scaleX, scaleY, alpha, rotation)
 
 # Presets animations
 
@@ -14,8 +14,8 @@ WIP. Presets animations with actuate.
 - fadeInX
 - fadeInY
 - backIn
-- lightSpeedInX
-- lightSpeedInY
+- lightSpeedInX (only OpenFl because it uses matrix)
+- lightSpeedInY (only OpenFl because it uses matrix)
 - flipInX
 - flipInY
 
@@ -49,11 +49,11 @@ WIP. Presets animations with actuate.
 
 # TODO
 
-- [] xml config
+- [] xml config for custom actuate animations
 - [] more preset for game assets (critical hit, low health, teleport, grab me, die)
 - [] more configurable (delay...)
 - [] callback
 
-# Showcase
+# Live Demo
 
 You can see all animations [here](https://www.loudoweb.fr/app/kadabra_anims);

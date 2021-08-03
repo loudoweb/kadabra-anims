@@ -38,6 +38,11 @@ enum EPreset {
  */
 class Presets 
 {
+	/**
+	 * If you want Presets handles the center pivot for you, set this variable to true.
+	 * Useful for all presets that scales. TODO implement everywhere.
+	 */
+	public static var HANDLE_CENTER_PIVOT:Bool = false;
 
 	/**
 	 * Loop animation for buttons, sprites
@@ -67,7 +72,15 @@ class Presets
 	 */
 	public static function spreadOut<T> (target:T, duration:Float = 0.75):T
 	{
-		Actuate.tween(target, duration, {alpha:  0, scaleX: 1.75, scaleY: 1.75});
+		if (!HANDLE_CENTER_PIVOT)
+			Actuate.tween(target, duration, {alpha:  0, scaleX: 1.75, scaleY: 1.75});
+		else{
+			var _x:Float = Reflect.getProperty(target, "x");
+			var _y:Float = Reflect.getProperty(target, "y");
+			var _w:Float = Reflect.getProperty(target, "width");
+			var _h:Float = Reflect.getProperty(target, "height");
+			Actuate.tween(target, duration, {alpha:  0, scaleX: 1.75, scaleY: 1.75, x: _x - .375 * _w  , y: _y - .375 * _h});
+		}
 		return target;
 	}
 	
