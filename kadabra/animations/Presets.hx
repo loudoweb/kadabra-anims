@@ -99,10 +99,10 @@ class Presets {
 	/**
 	 * entrance
 	 */
-	public static function fadeIn<T>(target:T, duration:Float = 1.0):T {
+	public static function fadeIn<T>(target:T, duration:Float = 1.0, delay:Float = .0, completeHandler:Dynamic = null):T {
 		var alpha:Float = Reflect.getProperty(target, "alpha");
 		Actuate.apply(target, {alpha: 0});
-		Actuate.tween(target, duration, {alpha: alpha});
+		Actuate.tween(target, duration, {alpha: alpha}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
@@ -131,8 +131,8 @@ class Presets {
 	/**
 	 * exit
 	 */
-	public static function fadeOut<T>(target:T, duration:Float = 1.0):T {
-		Actuate.tween(target, duration, {alpha: 0});
+	public static function fadeOut<T>(target:T, duration:Float = 1.0, delay:Float = .0, completeHandler:Dynamic = null):T {
+		Actuate.tween(target, duration, {alpha: 0}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
