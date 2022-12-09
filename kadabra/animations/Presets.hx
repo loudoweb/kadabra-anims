@@ -109,22 +109,22 @@ class Presets {
 	/**
 	 * entrance
 	 */
-	public static function fadeInX<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0):T {
+	public static function fadeInX<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0, completeHandler:Dynamic = null):T {
 		var current:Float = Reflect.getProperty(target, "x");
 		var alpha:Float = Reflect.getProperty(target, "alpha");
 		Actuate.apply(target, {x: current + translation, alpha: 0});
-		Actuate.tween(target, duration, {x: current, alpha: alpha}).delay(delay);
+		Actuate.tween(target, duration, {x: current, alpha: alpha}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
 	/**
 	 * entrance
 	 */
-	public static function fadeInY<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0):T {
+	public static function fadeInY<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0, completeHandler:Dynamic = null):T {
 		var current:Float = Reflect.getProperty(target, "y");
 		var alpha:Float = Reflect.getProperty(target, "alpha");
 		Actuate.apply(target, {y: current - translation, alpha: 0});
-		Actuate.tween(target, duration, {y: current, alpha: alpha}).delay(delay);
+		Actuate.tween(target, duration, {y: current, alpha: alpha}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
@@ -139,18 +139,18 @@ class Presets {
 	/**
 	 * exit
 	 */
-	public static function fadeOutX<T>(target:T, duration:Float = 1.0, translation:Int = 100):T {
+	public static function fadeOutX<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0, completeHandler:Dynamic = null):T {
 		var current:Float = Reflect.getProperty(target, "x");
-		Actuate.tween(target, duration, {x: current + translation, alpha: 0});
+		Actuate.tween(target, duration, {x: current + translation, alpha: 0}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
 	/**
 	 * exit
 	 */
-	public static function fadeOutY<T>(target:T, duration:Float = 1.0, translation:Int = 100):T {
+	public static function fadeOutY<T>(target:T, duration:Float = 1.0, translation:Int = 100, delay:Float = .0, completeHandler:Dynamic = null):T {
 		var current:Float = Reflect.getProperty(target, "y");
-		Actuate.tween(target, duration, {y: current + translation, alpha: 0});
+		Actuate.tween(target, duration, {y: current + translation, alpha: 0}).delay(delay).onComplete(completeHandler);
 		return target;
 	}
 
